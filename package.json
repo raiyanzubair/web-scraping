@@ -9,8 +9,8 @@
   "author": "Raiyan Zubair",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
     "cheerio": "^1.0.0-rc.2",
-    "jsonfile": "^5.0.0",
-    "puppeteer": "^1.12.2"
+    "jsonfile": "^5.0.0"
   }
 }
