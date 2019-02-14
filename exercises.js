@@ -8,6 +8,20 @@ const BASE_URL = 'https://www.jefit.com/exercises/bodypart.php?id=11&exercises=A
 const START_PAGE = 1
 const END_PAGE = 130
 
+const converted = {
+  "Chest": "Chest",
+  "Back": "Back",
+  "Shoulders": "Shoulders",
+  "Biceps": "Biceps",
+  "Triceps": "Triceps",
+  "Forearm": "Forearms",
+  "Upper Legs": "Quads",
+  "Lower Legs": "Calves",
+  "Glutes": "Glutes",
+  "Abs": "Abs",
+  "Cardio": "Cardio",
+  "Other": "Other"
+}
 
 const getPageData = async (url) => {
   const exercises = []
@@ -16,9 +30,11 @@ const getPageData = async (url) => {
   const html = response.data
   
   $("td > h4 ", html).each((i, elem) => {
+    let type = $(elem).next().text().split(" : ")[1].trim()
+    type = converted[type]
     exercises.push({
       title: $(elem).children('a').text(),
-      exercise_type: $(elem).next().text().split(" : ")[1]
+      exercise_type: type
     })
   })
   return exercises
@@ -26,8 +42,8 @@ const getPageData = async (url) => {
 
 (async () => {
   const promises = []
-  for (let i=START_PAGE;i<=END_PAGE;i++) {
-    promises.push(getPageData(BASE_URL + i))
+  for (let i=0;i<=500;i++) {
+    promises.push(getSalesData(i))
   }
   const pageExercises = await Promise.all(promises)
   const allExercises = pageExercises.reduce((acc, item) => acc.concat(item))
